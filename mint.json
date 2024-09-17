@@ -82,18 +82,10 @@
     {
       "group": "Blocks",
       "pages": [
-        "sdk-reference/blocks/API",
-        "sdk-reference/blocks/Blob-Storage",
+        "sdk-reference/blocks/api",
+        "sdk-reference/blocks/blob-storage",
         "sdk-reference/blocks/config",
-        "sdk-reference/blocks/SQL"
-      ]
-    },
-    {
-      "group": "Reference",
-      "pages": [
-        "sdk-reference/endpoint/get",
-        "sdk-reference/endpoint/create",
-        "sdk-reference/endpoint/delete"
+        "sdk-reference/blocks/sql"
       ]
     },
     {
