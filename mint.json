@@ -83,8 +83,8 @@
       "group": "Blocks",
       "pages": [
         "sdk-reference/blocks/api-wrapper",
-        "sdk-reference/blocks/blob-storage",
-        "sdk-reference/blocks/config-storage",
+        "sdk-reference/blocks/blob-store",
+        "sdk-reference/blocks/config-store",
         "sdk-reference/blocks/sql-database"
       ]
     },
