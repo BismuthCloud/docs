@@ -82,10 +82,10 @@
     {
       "group": "Blocks",
       "pages": [
-        "sdk-reference/blocks/api",
+        "sdk-reference/blocks/api-wrapper",
         "sdk-reference/blocks/blob-storage",
-        "sdk-reference/blocks/config",
-        "sdk-reference/blocks/sql"
+        "sdk-reference/blocks/config-storage",
+        "sdk-reference/blocks/sql-database"
       ]
     },
     {
