@@ -1,0 +1,91 @@
+## Overview
+
+The API codeblock in the Bismuth SDK provides a simple way to create and manage REST APIs. It's built on top of Flask and Flask-RESTX, offering an intuitive interface for defining routes and handling HTTP requests.
+
+## Basic Usage
+
+To create an API using the Bismuth SDK, you'll typically follow these steps:
+
+1. Import the API class from the Bismuth SDK
+2. Create a new class that inherits from API
+3. Define your routes and handlers
+4. Instantiate your API class and run it
+
+Here's a simple example:
+
+```python
+from bismuth import API
+from flask import Request
+
+class HelloWorldAPI(API):
+    def __init__(self):
+        super().__init__()
+        self.add_route("/hello", {"GET": self.hello})
+
+    def hello(self, request: Request):
+        return "Hello, World!"
+
+if __name__ == "__main__":
+    HelloWorldAPI().run()
+```
+
+This creates an API with a single route `/hello` that responds to GET requests with "Hello, World!".
+
+## Adding Routes
+
+The `add_route` method is used to define new endpoints for your API. It takes two main arguments:
+
+1. The route path (as a string)
+2. A dictionary mapping HTTP methods to handler functions
+
+```python
+self.add_route("/users", {
+    "GET": self.get_users,
+    "POST": self.create_user
+})
+```
+
+## Request Handling
+
+Your handler functions should accept a `flask.Request` object as their first parameter. Any query parameters or JSON body data will be passed as additional keyword arguments.
+
+```python
+def create_user(self, request: Request, **kwargs):
+    username = kwargs.get('username')
+    email = kwargs.get('email')
+    # Create user logic here
+    return {"message": f"User {username} created"}, 201
+```
+
+## Authentication
+
+You can implement authentication by decorating your handler methods. Here's an example using basic authentication:
+
+```python
+from bismuth import API
+from functools import wraps
+from flask import Request
+from typing import Callable, Any
+
+class AuthenticatedAPI(API):
+    def __init__(self):
+        super().__init__()
+        self.add_route("/hello", {"GET": self.hello})
+
+    @staticmethod
+    def check_auth(func: Callable[..., Any]):
+        @wraps(func)
+        def wrapper(self, request: Request, **kwargs):
+            if request.headers.get("Authorization") == "Basic dXNlcjpwYXNz":  # user:pass
+                return func(self, request, **kwargs)
+            else:
+                return "Unauthorized", 401
+        return wrapper
+
+    @check_auth
+    def hello(self, request: Request):
+        return "Hello, authenticated user!"
+
+if __name__ == "__main__":
+    AuthenticatedAPI().run()
+```

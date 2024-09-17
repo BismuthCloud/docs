@@ -1,0 +1,157 @@
+## Overview
+
+The SQL codeblock in the Bismuth SDK provides a simple interface for interacting with a PostgreSQL database. It allows you to execute SQL queries, fetch results, and manage transactions easily.
+
+## Basic Usage
+
+To use the SQL storage, follow these steps:
+
+1. Import the SQL class from the Bismuth SDK
+2. Create an instance of the SQL class
+3. Use the provided methods to execute queries and fetch results
+
+Here's a simple example:
+
+```python
+from bismuth import SQL
+
+# Create an SQL instance
+sql = SQL("__DB_CONNECTION_STRING__")
+
+# Execute a query
+sql.execute("CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(100))")
+
+# Insert data
+sql.execute("INSERT INTO users (name) VALUES (%s)", ["John Doe"])
+
+# Fetch data
+result = sql.fetchone("SELECT * FROM users WHERE name = %s", ["John Doe"])
+print(result)  # Outputs: (1, 'John Doe')
+```
+
+## Methods
+
+The SQL class provides the following main methods:
+
+- `execute(sql: str, params: Sequence[Any]|Mapping[str, Any] = {})`: Execute a SQL query without returning results
+- `fetchone(sql: str, params: Sequence[Any]|Mapping[str, Any] = {}) -> Optional[tuple[Any, ...]]`: Execute a query and fetch a single row
+- `fetchall(sql: str, params: Sequence[Any]|Mapping[str, Any] = {}) -> list[tuple[Any, ...]]`: Execute a query and fetch all rows
+- `getconn() -> psycopg.Connection`: Get the underlying psycopg connection object
+
+## Query Execution
+
+You can execute any SQL query using the `execute` method:
+
+```python
+#SETUP
+from bismuth import SQL
+sql = SQL("__DB_CONNECTION_STRING__")
+#BODY
+# Create a table
+sql.execute("""
+    CREATE TABLE products (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100),
+        price DECIMAL(10, 2)
+    )
+""")
+
+# Insert data
+sql.execute(
+    "INSERT INTO products (name, price) VALUES (%s, %s)",
+    ["Apple", 0.50]
+)
+
+# Update data
+sql.execute(
+    "UPDATE products SET price = %s WHERE name = %s",
+    [0.75, "Apple"]
+)
+
+# Delete data
+sql.execute("DELETE FROM products WHERE name = %s", ["Apple"])
+```
+
+## Transactions
+
+The SQL class automatically manages transactions. Each query is executed within a transaction, which is committed if the query succeeds or rolled back if an exception occurs.
+
+If you need to manage transactions manually, you can use the underlying psycopg connection:
+
+```python
+#SETUP
+from bismuth import SQL
+sql = SQL("__DB_CONNECTION_STRING__")
+#BODY
+conn = sql.getconn()
+with conn.transaction():
+    sql.execute("INSERT INTO products (name, price) VALUES (%s, %s)", ["Orange", 0.75])
+    sql.execute("INSERT INTO products (name, price) VALUES (%s, %s)", ["Banana", 0.60])
+```
+
+## Fetching Data
+
+To retrieve data, use the `fetchone` or `fetchall` methods:
+
+```python
+#SETUP
+from bismuth import SQL
+sql = SQL("__DB_CONNECTION_STRING__")
+#BODY
+# Fetch a single row
+result = sql.fetchone("SELECT * FROM products WHERE name = %s", ["Apple"])
+if result:
+    print(f"Product: {result[1]}, Price: ${result[2]}")
+
+# Fetch all rows
+results = sql.fetchall("SELECT * FROM products WHERE price < %s", [1.00])
+for row in results:
+    print(f"Product: {row[1]}, Price: ${row[2]}")
+```
+
+## Error Handling
+
+The SQL class doesn't do anything fancy with error handling. Anything psycopg2 can raise we can raise. For that reason you should handle potential exceptions as you would normally:
+
+```python
+#SETUP
+from bismuth import SQL
+sql = SQL("__DB_CONNECTION_STRING__")
+#BODY
+try:
+    sql.execute("INSERT INTO non_existent_table (column) VALUES (%s)", ["value"])
+except Exception as e:
+    print(f"An error occurred: {e}")
+```
+
+## Connection Management
+
+The SQL class automatically manages the database connection. It uses the following connection parameters:
+
+- For hosted environments: It connects to the managed service using the `BISMUTH_AUTH` environment variable as the password
+- For local development: You can provide a custom PostgreSQL URI
+
+```python
+from bismuth import SQL
+
+# For local development, use any PG URI
+sql = SQL("postgresql://whatever:your@uri/is")
+```
+
+## Advanced Usage
+
+For more advanced use cases, you can directly use the psycopg connection:
+
+```python
+#SETUP
+from bismuth import SQL
+sql = SQL("__DB_CONNECTION_STRING__")
+#BODY
+conn = sql.getconn()
+with conn.cursor() as cur:
+    cur.execute("SELECT * FROM products")
+    for record in cur:
+        print(record)
+```
+
+This allows you to use all features provided by the psycopg library, such as prepared statements, cursors, and more.

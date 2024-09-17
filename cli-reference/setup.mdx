@@ -1,0 +1,45 @@
+---
+title: "Setup"
+description: "Setup instructions for the Bismuth CLI."
+---
+
+## Installing
+
+Installing the Bismuth CLI is super simple. All you need to do is copy the command below and hit enter!
+
+```bash
+python3 -m pip install bismuthsdk && python3 -m bismuthsdk install-cli
+```
+
+That command will both install our SDK and use a conveince function we have there to install the cli.
+
+Once the CLI is installed then all you need to do is auth with github, google or email and password.
+
+<Note>
+  Don't worry if you haven't created an account yet that can be taken care of
+  during this step.
+</Note>
+
+```bash
+biscli login
+```
+
+This will spit out a link and you can either copy and paste it in your browser or if your terminal of choice supports smart links pressing `CMD/CTRL` and clicking the link should open it for you.
+
+## Importing Your Project
+
+Once you're logged in all you need to do is locally go to an existing repo you want to work on, create a new project, or clone our sample repo where you can let Bismuth run wild for a bit.
+
+The sample repo is located here.
+
+Regardless of what you choose the next step is to import your repo into Bismuth.
+
+```bash
+biscli import .
+```
+
+If the repo has a github remote attached our CLI will see that and reccomend you import through the github flow. This is optional and requires installing our github app.
+
+Assuming all goes well your repo will be imported to bismuth and will have a new origin you can push to `git push bismuth`. You will not often have to push to bismuth as changes made by the agent are automatically synced.
+
+And that's it you're ready to work with Bismuth!

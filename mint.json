@@ -5,11 +5,12 @@
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
+  "theme":"prism",
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#5D4CFE",
+    "light": "#8477FF",
+    "dark": "#5D4CFE",
     "anchors": {
       "from": "#0D9373",
       "to": "#07C983"
@@ -27,15 +28,19 @@
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
+      "name": "CLI",
+      "url": "cli-reference"
+    },
+    {
+      "name": "SDK",
+      "url": "sdk-reference"
     }
   ],
   "anchors": [
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "url": "/"
     },
     {
       "name": "Community",
@@ -69,17 +74,40 @@
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "SDK Documentation",
       "pages": [
-        "api-reference/introduction"
+        "sdk-reference/introduction"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Blocks",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "sdk-reference/blocks/API",
+        "sdk-reference/blocks/Blob-Storage",
+        "sdk-reference/blocks/config",
+        "sdk-reference/blocks/SQL"
+      ]
+    },
+    {
+      "group": "Reference",
+      "pages": [
+        "sdk-reference/endpoint/get",
+        "sdk-reference/endpoint/create",
+        "sdk-reference/endpoint/delete"
+      ]
+    },
+    {
+      "group": "CLI Documentation",
+      "pages": [
+        "cli-reference/introduction",
+        "cli-reference/setup",
+        "cli-reference/chatting"
+      ]
+    },
+    {
+      "group": "Reference",
+      "pages": [
+        "cli-reference/reference/index"
       ]
     }
   ],

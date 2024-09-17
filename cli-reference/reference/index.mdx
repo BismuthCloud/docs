@@ -1,0 +1,552 @@
+---
+title: "CLI Reference"
+description: "In depth reference docs for every command in the CLI as produced by the CLI's help command."
+---
+
+# Command-Line Help for `cli`
+
+This document contains the help content for the `cli` command-line program.
+
+**Command Overview:**
+
+- [`cli`↴](#cli)
+- [`cli login`↴](#cli-login)
+- [`cli version`↴](#cli-version)
+- [`cli project`↴](#cli-project)
+- [`cli project list`↴](#cli-project-list)
+- [`cli project create`↴](#cli-project-create)
+- [`cli project import`↴](#cli-project-import)
+- [`cli project link`↴](#cli-project-link)
+- [`cli project clone`↴](#cli-project-clone)
+- [`cli project delete`↴](#cli-project-delete)
+- [`cli feature`↴](#cli-feature)
+- [`cli feature list`↴](#cli-feature-list)
+- [`cli feature config`↴](#cli-feature-config)
+- [`cli feature config get`↴](#cli-feature-config-get)
+- [`cli feature config set`↴](#cli-feature-config-set)
+- [`cli feature deploy`↴](#cli-feature-deploy)
+- [`cli feature deploy-status`↴](#cli-feature-deploy-status)
+- [`cli feature teardown`↴](#cli-feature-teardown)
+- [`cli feature get-url`↴](#cli-feature-get-url)
+- [`cli feature logs`↴](#cli-feature-logs)
+- [`cli kv`↴](#cli-kv)
+- [`cli kv get`↴](#cli-kv-get)
+- [`cli kv set`↴](#cli-kv-set)
+- [`cli kv delete`↴](#cli-kv-delete)
+- [`cli blob`↴](#cli-blob)
+- [`cli blob list`↴](#cli-blob-list)
+- [`cli blob create`↴](#cli-blob-create)
+- [`cli blob get`↴](#cli-blob-get)
+- [`cli blob set`↴](#cli-blob-set)
+- [`cli blob delete`↴](#cli-blob-delete)
+- [`cli sql`↴](#cli-sql)
+- [`cli sql query`↴](#cli-sql-query)
+- [`cli billing`↴](#cli-billing)
+- [`cli billing manage-subscription`↴](#cli-billing-manage-subscription)
+- [`cli import`↴](#cli-import)
+- [`cli deploy`↴](#cli-deploy)
+- [`cli deploy-status`↴](#cli-deploy-status)
+- [`cli teardown`↴](#cli-teardown)
+- [`cli get-url`↴](#cli-get-url)
+- [`cli logs`↴](#cli-logs)
+- [`cli chat`↴](#cli-chat)
+
+## `cli`
+
+The CLI for Bismuth Cloud
+
+**Usage:** `cli [OPTIONS] <COMMAND>`
+
+###### **Subcommands:**
+
+- `login` — Login to Bismuth Cloud
+- `version` — Show the CLI version
+- `project` — Manage projects
+- `feature` — Manage features
+- `kv` — Interact with key-value storage
+- `blob` — Interact with blob (file) storage
+- `sql` — Run SQL queries against a feature's database
+- `billing` —
+- `import` — Create a new Bismuth project, and import an existing Git repository into it. Alias of `project import`
+- `deploy` — Deploy a feature to the cloud. Alias of `feature deploy`
+- `deploy-status` — Get the status of a deployment. Alias of `feature deploy-status`
+- `teardown` — Teardown a feature. Alias of `feature teardown`
+- `get-url` — Get the URL for a deployed feature. Alias of `feature get-url`
+- `logs` — Get logs from a deployment. Alias of `feature logs`
+- `chat` — Interact with the Bismuth AI
+
+###### **Options:**
+
+- `--api-url <API_URL>`
+
+  Default value: `https://api.bismuth.cloud`
+
+- `--config-file <CONFIG_FILE>`
+
+  Default value: `/Users/crow/Library/Application Support/bismuth.json`
+
+- `-v`, `--verbose` — Increase logging verbosity
+- `-q`, `--quiet` — Decrease logging verbosity
+
+## `cli login`
+
+Login to Bismuth Cloud
+
+**Usage:** `cli login`
+
+## `cli version`
+
+Show the CLI version
+
+**Usage:** `cli version`
+
+## `cli project`
+
+Manage projects
+
+**Usage:** `cli project <COMMAND>`
+
+###### **Subcommands:**
+
+- `list` — List all projects
+- `create` — Create a new project
+- `import` — Create a new Bismuth project, and import an existing Git repository into it
+- `link` — Link a project to a GitHub repository
+- `clone` — Clone the project for local development
+- `delete` — Delete a project
+
+## `cli project list`
+
+List all projects
+
+**Usage:** `cli project list`
+
+## `cli project create`
+
+Create a new project
+
+**Usage:** `cli project create <NAME>`
+
+###### **Arguments:**
+
+- `<NAME>`
+
+## `cli project import`
+
+Create a new Bismuth project, and import an existing Git repository into it
+
+**Usage:** `cli project import <REPO|--github>`
+
+###### **Arguments:**
+
+- `<REPO>` — The path to the Git repository to import. Defaults to the current directory
+
+###### **Options:**
+
+- `--github` — Import a repository from GitHub
+
+## `cli project link`
+
+Link a project to a GitHub repository
+
+**Usage:** `cli project link <PROJECT>`
+
+###### **Arguments:**
+
+- `<PROJECT>` — The project to link
+
+## `cli project clone`
+
+Clone the project for local development
+
+**Usage:** `cli project clone <PROJECT> [OUTDIR]`
+
+###### **Arguments:**
+
+- `<PROJECT>`
+- `<OUTDIR>` — The target directory to clone the project into. Defaults to the project name
+
+## `cli project delete`
+
+Delete a project
+
+**Usage:** `cli project delete <PROJECT>`
+
+###### **Arguments:**
+
+- `<PROJECT>`
+
+## `cli feature`
+
+Manage features
+
+**Usage:** `cli feature <COMMAND>`
+
+###### **Subcommands:**
+
+- `list` — List all features in a project
+- `config` — Manage feature configuration
+- `deploy` — Deploy a feature to the cloud
+- `deploy-status` — Get the status of a deployment
+- `teardown` — Teardown a feature
+- `get-url` — Get the URL for a deployed feature
+- `logs` — Get logs from a deployment
+
+## `cli feature list`
+
+List all features in a project
+
+**Usage:** `cli feature list <PROJECT>`
+
+###### **Arguments:**
+
+- `<PROJECT>`
+
+## `cli feature config`
+
+Manage feature configuration
+
+**Usage:** `cli feature config <FEATURE> <COMMAND>`
+
+###### **Subcommands:**
+
+- `get` —
+- `set` —
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+## `cli feature config get`
+
+**Usage:** `cli feature config get [KEY]`
+
+###### **Arguments:**
+
+- `<KEY>`
+
+## `cli feature config set`
+
+**Usage:** `cli feature config set <KEY> <VALUE>`
+
+###### **Arguments:**
+
+- `<KEY>`
+- `<VALUE>`
+
+## `cli feature deploy`
+
+Deploy a feature to the cloud
+
+**Usage:** `cli feature deploy [OPTIONS] <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+###### **Options:**
+
+- `--no-wait`
+
+  Default value: `false`
+
+- `--timeout <TIMEOUT>`
+
+  Default value: `15`
+
+## `cli feature deploy-status`
+
+Get the status of a deployment
+
+**Usage:** `cli feature deploy-status <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+## `cli feature teardown`
+
+Teardown a feature
+
+**Usage:** `cli feature teardown <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+## `cli feature get-url`
+
+Get the URL for a deployed feature
+
+**Usage:** `cli feature get-url <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+## `cli feature logs`
+
+Get logs from a deployment
+
+**Usage:** `cli feature logs [OPTIONS] <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+###### **Options:**
+
+- `-f`, `--follow` — Continuously tail the log stream. Equivalent to `tail -f`
+
+  Default value: `false`
+
+## `cli kv`
+
+Interact with key-value storage
+
+**Usage:** `cli kv <COMMAND>`
+
+###### **Subcommands:**
+
+- `get` —
+- `set` —
+- `delete` —
+
+## `cli kv get`
+
+**Usage:** `cli kv get <FEATURE> <KEY>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+- `<KEY>`
+
+## `cli kv set`
+
+**Usage:** `cli kv set <FEATURE> <KEY> <VALUE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+- `<KEY>`
+- `<VALUE>`
+
+## `cli kv delete`
+
+**Usage:** `cli kv delete <FEATURE> <KEY>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+- `<KEY>`
+
+## `cli blob`
+
+Interact with blob (file) storage
+
+**Usage:** `cli blob <COMMAND>`
+
+###### **Subcommands:**
+
+- `list` —
+- `create` —
+- `get` —
+- `set` —
+- `delete` —
+
+## `cli blob list`
+
+**Usage:** `cli blob list <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+## `cli blob create`
+
+**Usage:** `cli blob create <--literal <LITERAL>|--file <FILE>> <FEATURE> <KEY>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+- `<KEY>`
+
+###### **Options:**
+
+- `--literal <LITERAL>` — A literal value to use
+- `--file <FILE>` — The path to a file to use
+
+## `cli blob get`
+
+**Usage:** `cli blob get <FEATURE> <KEY> [OUTPUT]`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+- `<KEY>`
+- `<OUTPUT>` — The path to write the blob to. Defaults to writing to stdout
+
+## `cli blob set`
+
+**Usage:** `cli blob set <--literal <LITERAL>|--file <FILE>> <FEATURE> <KEY>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+- `<KEY>`
+
+###### **Options:**
+
+- `--literal <LITERAL>` — A literal value to use
+- `--file <FILE>` — The path to a file to use
+
+## `cli blob delete`
+
+**Usage:** `cli blob delete <FEATURE> <KEY>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+- `<KEY>`
+
+## `cli sql`
+
+Run SQL queries against a feature's database
+
+**Usage:** `cli sql <COMMAND>`
+
+###### **Subcommands:**
+
+- `query` —
+
+## `cli sql query`
+
+**Usage:** `cli sql query <--literal <LITERAL>|--file <FILE>> <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+###### **Options:**
+
+- `--literal <LITERAL>` — A literal value to use
+- `--file <FILE>` — The path to a file to use
+
+## `cli billing`
+
+**Usage:** `cli billing <COMMAND>`
+
+###### **Subcommands:**
+
+- `manage-subscription` — Open Stripe subscription management page
+
+## `cli billing manage-subscription`
+
+Open Stripe subscription management page
+
+**Usage:** `cli billing manage-subscription`
+
+## `cli import`
+
+Create a new Bismuth project, and import an existing Git repository into it. Alias of `project import`
+
+**Usage:** `cli import <REPO|--github>`
+
+###### **Arguments:**
+
+- `<REPO>` — The path to the Git repository to import. Defaults to the current directory
+
+###### **Options:**
+
+- `--github` — Import a repository from GitHub
+
+## `cli deploy`
+
+Deploy a feature to the cloud. Alias of `feature deploy`
+
+**Usage:** `cli deploy [OPTIONS] <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+###### **Options:**
+
+- `--no-wait`
+
+  Default value: `false`
+
+- `--timeout <TIMEOUT>`
+
+  Default value: `15`
+
+## `cli deploy-status`
+
+Get the status of a deployment. Alias of `feature deploy-status`
+
+**Usage:** `cli deploy-status <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+## `cli teardown`
+
+Teardown a feature. Alias of `feature teardown`
+
+**Usage:** `cli teardown <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+## `cli get-url`
+
+Get the URL for a deployed feature. Alias of `feature get-url`
+
+**Usage:** `cli get-url <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+## `cli logs`
+
+Get logs from a deployment. Alias of `feature logs`
+
+**Usage:** `cli logs [OPTIONS] <FEATURE>`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The feature to operate on, specified as 'project/feature'
+
+###### **Options:**
+
+- `-f`, `--follow` — Continuously tail the log stream. Equivalent to `tail -f`
+
+  Default value: `false`
+
+## `cli chat`
+
+Interact with the Bismuth AI
+
+**Usage:** `cli chat [OPTIONS] [FEATURE]`
+
+###### **Arguments:**
+
+- `<FEATURE>` — The project/feature to work on. If not specified, attempt to find based on the provided (or current) directory
+
+###### **Options:**
+
+- `--repo <REPO>` — The cloned repository. If not specified, checks if the current directory is a clone of the project. If not, the repo is automatically cloned into a new folder in the current directory
+
+<hr />
+
+<small>
+  <i>
+    This document was generated automatically by
+    <a href="https://crates.io/crates/clap-markdown">
+      <code>clap-markdown</code>
+    </a>.
+  </i>
+</small>

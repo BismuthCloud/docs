@@ -1,0 +1,58 @@
+---
+title: "Chatting"
+description: "Explain chatting with Bismuth in-depth."
+---
+
+<Note>
+  Make sure you have the CLI installed, you're logged in and that you are in the
+  git repo of a project you have imported into Bismuth. See `Installing and
+  Importing` under `Setup` for details on how to that.
+</Note>
+
+## Chatting
+
+After you've imported a project either through GitHub or locally you can start a chat with Bismuth.
+Bismuth is the programming agent that will help you build your projects quicker and handle things like refactors and documenting your codebase.
+
+To chat with Bismuth run `biscli chat` in the root of your imported repo in your terminal.
+
+The chat interface is a pretty standard TUI interface with a chatbox on the bottom. You can send messages of any length, but currently newlines are treated as enter and will send your message.
+
+Bismuth is capable of answering questions about your codebase, adding new files, modifying existing files, adding documentation, updating dependencies
+
+## Chat Commands
+
+There are multiple `/` commands you can use that each do different things when working in the chat interface.
+
+- `/exit` or `/quit` exits the chat (or you can press `ESC`)
+- `/help` does something
+- `/undo` reverts the last set of changes made by Bismuth locally. This is careful to avoid changes you yourself may have had in progress.
+- `/docs` opens this documentation site in the default browser you have set.
+
+## Writing Code
+
+When you ask Bismuth to make changes or write new code you'll see a few things happen.
+
+1. Bismuth will chat to you like normal and explain what they're going to do in your project to achieve what you've asked.
+2. They'll periodically enter their code writing loop where they're writing code, checking it for errors making changes and so on just like you as a developer would do.
+   Going through that loop you'll see various statuses as things are happening they look like, Thinking, Writing Code, Fixing Errors and so on.
+   <img
+     className="hidden dark:block rounded"
+     src="/images/chat/statuses.png"
+     alt="Hero Dark"
+   />
+   <Note>
+     Bismuth does not currently execute code, but that is close to the top of
+     the list of features we're working on. We do however currently verify
+     correctness using other methods.
+   </Note>
+3. Finally, assuming Bismuth comes up with a viable solution to your problem you'll be asked to commit or reject the changes.
+   <img
+     className="hidden dark:block rounded"
+     src="/images/chat/diffs.png"
+     alt="Hero Dark"
+   />
+   Bismuth works directly on your repo alongside you proposing commits when it's
+   solved your problem. You are free to code while it's working, but note changing
+   files in the area of concern you've asked it to work on may be overwritten when
+   it responds.

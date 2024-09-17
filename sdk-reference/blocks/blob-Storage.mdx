@@ -1,0 +1,115 @@
+## Overview
+
+The BlobStorage codeblock in the Bismuth SDK provides a simple interface for storing and retrieving binary large objects (blobs). It offers both local and hosted storage options, making it flexible for different development and production environments.
+
+## Basic Usage
+
+To use BlobStorage, you typically follow these steps:
+
+1. Import the BlobStorage class from the Bismuth SDK
+2. Create an instance of BlobStorage
+3. Use the methods provided to store, retrieve, update, and delete blobs
+
+Here's a simple example:
+
+```python
+from bismuth import BlobStorage
+
+# Create a BlobStorage instance
+blob_storage = BlobStorage()
+
+# Store a blob
+blob_storage.create("my_key", b"Hello, Blob!")
+
+# Retrieve a blob
+data = blob_storage.retrieve("my_key")
+print(data)  # Outputs: b"Hello, Blob!"
+
+# Update a blob
+blob_storage.update("my_key", b"Updated Blob")
+
+# Delete a blob
+blob_storage.delete("my_key")
+```
+
+## Methods
+
+BlobStorage provides the following main methods:
+
+- `create(key: str, value: Any) -> None`: Store a new blob
+- `retrieve(key: str) -> Optional[Any]`: Retrieve a stored blob
+- `update(key: str, value: Any) -> None`: Update an existing blob
+- `delete(key: str) -> None`: Delete a stored blob
+- `list_keys() -> set[str]`: List all stored blob keys
+
+## Data Types
+
+BlobStorage can handle various data types:
+
+- Bytes are stored as-is
+- Other types are automatically converted to JSON for storage
+
+```python
+# Storing different data types
+blob_storage.create("bytes_key", b"Binary data")
+blob_storage.create("string_key", "Hello, World!")
+blob_storage.create("dict_key", {"name": "John", "age": 30})
+
+# Retrieving data
+bytes_data = blob_storage.retrieve("bytes_key")
+string_data = blob_storage.retrieve("string_key")
+dict_data = blob_storage.retrieve("dict_key")
+```
+
+## Hosted vs Local Storage
+
+BlobStorage automatically determines whether to use hosted or local storage:
+
+- If the `BISMUTH_AUTH` environment variable is set, it uses hosted storage
+- Otherwise, it falls back to local storage (useful for development)
+
+```python
+import os
+
+# For hosted storage
+os.environ['BISMUTH_AUTH'] = 'your_auth_token'
+hosted_storage = BlobStorage()
+
+# For local storage (BISMUTH_AUTH not set)
+local_storage = BlobStorage()
+```
+
+## Error Handling
+
+BlobStorage methods may raise exceptions in certain situations:
+
+- `ValueError`: Raised when trying to create an existing key or update/delete a non-existent key
+- `Exception`: Raised for server errors or other unexpected issues
+
+It's good practice to handle these exceptions in your code:
+
+```python
+try:
+    blob_storage.create("existing_key", "New value")
+except ValueError:
+    print("Key already exists")
+except Exception as e:
+    print(f"An error occurred: {e}")
+```
+
+## Advanced Usage
+
+For more control over the storage behavior, you can directly use the `_HostedBlobStorage` or `_LocalBlobStorage` classes:
+
+```python
+from bismuth.blob_storage import _HostedBlobStorage, _LocalBlobStorage
+
+# Hosted storage with custom API URL
+hosted_storage = _HostedBlobStorage("your_auth_token", api_url="https://custom-api.example.com")
+
+# Local storage with custom directory
+local_storage = _LocalBlobStorage()
+local_storage._dir = pathlib.Path("/custom/storage/path")
+```
+
+Note that these classes are considered internal and their interfaces may change in future versions of the SDK.

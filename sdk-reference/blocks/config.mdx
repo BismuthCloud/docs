@@ -1,0 +1,129 @@
+## Overview
+
+The Configuration codeblock in the Bismuth SDK provides a secure way to access runtime configuration settings. It's designed to work seamlessly in both hosted and local development environments.
+
+## Basic Usage
+
+To use the Configuration codeblock, follow these steps:
+
+1. Import the Configuration class from the Bismuth SDK
+2. Create an instance of the Configuration class
+3. Use the `get` method to retrieve configuration values
+
+Here's a simple example:
+
+```python
+from bismuth import Configuration
+
+# Create a Configuration instance
+config = Configuration()
+
+# Retrieve a configuration value
+database_url = config.get("DATABASE_URL")
+print(f"Database URL: {database_url}")
+```
+
+## Methods
+
+The Configuration class provides the following main method:
+
+- `get(key: str) -> Optional[str]`: Retrieve the value of a configuration key
+
+## Retrieving Configuration Values
+
+Use the `get` method to retrieve configuration values:
+
+```python
+# Get a single configuration value
+api_key = config.get("API_KEY")
+
+# Get multiple configuration values
+db_host = config.get("DB_HOST")
+db_port = config.get("DB_PORT")
+db_name = config.get("DB_NAME")
+
+# Use configuration values
+database_url = f"postgresql://{db_host}:{db_port}/{db_name}"
+```
+
+## Error Handling
+
+The `get` method raises an `AttributeError` if the requested configuration key doesn't exist. It's good practice to handle this exception:
+
+```python
+try:
+    secret_key = config.get("SECRET_KEY")
+except AttributeError:
+    print("SECRET_KEY is not set in the configuration")
+    # Use a default value or raise an error
+    secret_key = "default_secret_key"
+```
+
+## Environment-based Behavior
+
+The Configuration codeblock behaves differently based on the environment:
+
+- In a hosted Bismuth environment: It securely retrieves configuration values from the Bismuth secrets management service.
+- In a local development environment: It raises an exception if `BISMUTH_AUTH` is not set in the environment variables.
+
+For local development, make sure to set the `BISMUTH_AUTH` environment variable:
+
+```python
+import os
+
+os.environ['BISMUTH_AUTH'] = 'your_auth_token'
+config = Configuration()
+```
+
+## Security Considerations
+
+- Never hard-code sensitive configuration values (like API keys or database passwords) directly in your code.
+- Always use the Configuration codeblock to retrieve sensitive values.
+- Be cautious about logging or displaying configuration values, especially in production environments.
+
+## Best Practices
+
+1. Use descriptive key names for your configuration values.
+2. Group related configuration keys (e.g., all database-related keys start with `DB_`).
+3. Provide clear error messages when required configuration values are missing.
+4. Use default values for non-critical configuration to make your application more robust.
+
+Here's an example incorporating these best practices:
+
+```python
+from bismuth import Configuration
+
+config = Configuration()
+
+def get_database_config():
+    try:
+        return {
+            "host": config.get("DB_HOST"),
+            "port": int(config.get("DB_PORT")),
+            "name": config.get("DB_NAME"),
+            "user": config.get("DB_USER"),
+            "password": config.get("DB_PASSWORD"),
+        }
+    except AttributeError as e:
+        raise ValueError(f"Missing required database configuration: {str(e)}")
+
+def get_api_key(default=None):
+    try:
+        return config.get("API_KEY")
+    except AttributeError:
+        if default is None:
+            raise ValueError("API_KEY is not set and no default provided")
+        return default
+
+# Usage
+try:
+    db_config = get_database_config()
+    api_key = get_api_key(default="development_key")
+
+    print(f"Connecting to database: {db_config['name']} on {db_config['host']}")
+    print(f"Using API key: {api_key}")
+except ValueError as e:
+    print(f"Configuration error: {e}")
+```
+
+This approach provides clear error messages, uses grouped configuration keys, and allows for default values where appropriate.
